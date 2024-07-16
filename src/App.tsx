@@ -1,11 +1,16 @@
 import React from 'react';
 import './App.css';
-import { Typography } from '@mui/material';
+import { Grid } from '@mui/material';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <Typography>Simple Task Management</Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Navbar />
+        </Grid>
+      </Grid>
     </div>
   );
 }

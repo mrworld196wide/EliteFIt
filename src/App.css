@@ -1,0 +1,24 @@
+body {
+    background: linear-gradient(51deg, #00d58c, #009bd5, #2a40be, #8800d5, #f316d8, #f3164f, #7502f1, #6f0484);
+    background-size: 2000% 2000%;
+
+    -webkit-animation: mytransition 19s ease infinite;
+    -moz-animation: mytransition 19s ease infinite;
+    animation: mytransition 19s ease infinite;
+}
+
+@-webkit-keyframes mytransition {
+    0%{background-position:0% 57%}
+    50%{background-position:100% 44%}
+    100%{background-position:0% 57%}
+}
+@-moz-keyframes mytransition {
+    0%{background-position:0% 57%}
+    50%{background-position:100% 44%}
+    100%{background-position:0% 57%}
+}
+@keyframes mytransition {
+    0%{background-position:0% 57%}
+    50%{background-position:100% 44%}
+    100%{background-position:0% 57%}
+}
