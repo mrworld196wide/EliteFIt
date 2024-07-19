@@ -1,24 +1,96 @@
-body {
-    background: linear-gradient(51deg, #00d58c, #009bd5, #2a40be, #8800d5, #f316d8, #f3164f, #7502f1, #6f0484);
-    background-size: 2000% 2000%;
+html, body {
+  height: 100%;
+  margin: 0;
+}
 
-    -webkit-animation: mytransition 19s ease infinite;
-    -moz-animation: mytransition 19s ease infinite;
-    animation: mytransition 19s ease infinite;
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  flex: 1; 
+  padding: 10px 0; 
+}
+
+.header {
+  height: 10vh;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.7;
+  z-index: -1;
+}
+
+.header h1 {
+  margin: 0;
+  color: rgb(68, 66, 66);
+}
+
+.col {
+  flex: 1;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+
+::-webkit-scrollbar-thumb {
+  background: #999898; 
+  border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #565656; 
+}
+
+body {
+  background: linear-gradient(51deg, #00d58c, #009bd5, #2a40be, #8800d5, #f316d8, #f3164f, #7502f1, #6f0484);
+  background-size: 2000% 2000%;
+
+  -webkit-animation: mytransition 19s ease infinite;
+  -moz-animation: mytransition 19s ease infinite;
+  animation: mytransition 19s ease infinite;
 }
 
 @-webkit-keyframes mytransition {
-    0%{background-position:0% 57%}
-    50%{background-position:100% 44%}
-    100%{background-position:0% 57%}
+  0%{background-position:0% 57%}
+  50%{background-position:100% 44%}
+  100%{background-position:0% 57%}
 }
 @-moz-keyframes mytransition {
-    0%{background-position:0% 57%}
-    50%{background-position:100% 44%}
-    100%{background-position:0% 57%}
+  0%{background-position:0% 57%}
+  50%{background-position:100% 44%}
+  100%{background-position:0% 57%}
 }
 @keyframes mytransition {
-    0%{background-position:0% 57%}
-    50%{background-position:100% 44%}
-    100%{background-position:0% 57%}
+  0%{background-position:0% 57%}
+  50%{background-position:100% 44%}
+  100%{background-position:0% 57%}
 }
