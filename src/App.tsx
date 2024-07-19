@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -18,7 +18,7 @@ import StatusBox from './components/StatusBox';
 import { TaskProps } from './components/TaskCard';
 import CreateTaskForm from './components/CreateTaskForm';
 
-const taskData = [
+const initialTaskData: TaskProps[] = [
     {
         id: 1634608610128,
         title: 'Change HTTP response code',
@@ -62,10 +62,13 @@ const taskData = [
 ];
 
 function App() {
-    const [allTasks, setAllTasks] = useState<TaskProps[]>(taskData);
-    const [doneTask, setDoneTask] = useState<TaskProps[]>(taskData.filter(task => task.status === 'Done'));
-    const [progressTask, setProgressTask] = useState<TaskProps[]>(taskData.filter(task => task.status === 'In Progress'));
-    const [openTask, setOpenTask] = useState<TaskProps[]>(taskData.filter(task => task.status === 'Open'));
+    const [allTasks, setAllTasks] = useState<TaskProps[]>(() => {
+        const savedTasks = localStorage.getItem('tasks');
+        return savedTasks ? JSON.parse(savedTasks) : initialTaskData;
+    });
+    const [doneTask, setDoneTask] = useState<TaskProps[]>([]);
+    const [progressTask, setProgressTask] = useState<TaskProps[]>([]);
+    const [openTask, setOpenTask] = useState<TaskProps[]>([]);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [filterModalOpen, setFilterModalOpen] = useState<boolean>(false);
     const [selectedTask, setSelectedTask] = useState<TaskProps | null>(null);
@@ -75,6 +78,25 @@ function App() {
         Medium: false,
         Low: false
     });
+
+    useEffect(() => {
+        const savedTasks = localStorage.getItem('tasks');
+        if (savedTasks) {
+            const parsedTasks: TaskProps[] = JSON.parse(savedTasks);
+            setAllTasks(parsedTasks);
+            setDoneTask(parsedTasks.filter((task: TaskProps) => task.status === 'Done'));
+            setProgressTask(parsedTasks.filter((task: TaskProps) => task.status === 'In Progress'));
+            setOpenTask(parsedTasks.filter((task: TaskProps) => task.status === 'Open'));
+        } else {
+            setDoneTask(initialTaskData.filter((task: TaskProps) => task.status === 'Done'));
+            setProgressTask(initialTaskData.filter((task: TaskProps) => task.status === 'In Progress'));
+            setOpenTask(initialTaskData.filter((task: TaskProps) => task.status === 'Open'));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(allTasks));
+    }, [allTasks]);
 
     const toggleModal = () => setModalOpen(!modalOpen);
     const toggleFilterModal = () => setFilterModalOpen(!filterModalOpen);
@@ -202,7 +224,7 @@ function App() {
                             taskData={filteredTasks(openTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
-                            handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
+                            handleTaskEdit={handleTaskEdit}
                         />
                     </div>
                     <div className="col col-2">
@@ -211,7 +233,7 @@ function App() {
                             taskData={filteredTasks(progressTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
-                            handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
+                            handleTaskEdit={handleTaskEdit}
                         />
                     </div>
                     <div className="col col-3">
@@ -220,7 +242,7 @@ function App() {
                             taskData={filteredTasks(doneTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
-                            handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
+                            handleTaskEdit={handleTaskEdit}
                         />
                     </div>
                 </div>
