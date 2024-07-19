@@ -9,7 +9,7 @@ export interface StatusBoxProps {
     taskData: TaskProps[];
     handleDragDropMovement: (taskId: number, targetStatus: string) => void;
     handleTaskDelete: (id: number) => void;
-    handleTaskEdit: (task: TaskProps) => void; // Include handleTaskEdit in props
+    handleTaskEdit: (task: TaskProps) => void; 
 }
 
 const StatusBox: React.FC<StatusBoxProps> = ({
@@ -17,8 +17,9 @@ const StatusBox: React.FC<StatusBoxProps> = ({
     taskData,
     handleDragDropMovement,
     handleTaskDelete,
-    handleTaskEdit // Ensure handleTaskEdit is included in props
+    handleTaskEdit 
 }) => {
+    // eslint-disable-next-line
     const [{ isOver }, drop] = useDrop(() => ({
         accept: ItemTypes.CARD,
         drop: (item: any) => handleDragDropMovement(item.taskId, status),
