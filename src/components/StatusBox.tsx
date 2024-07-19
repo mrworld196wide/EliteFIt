@@ -39,7 +39,7 @@ const StatusBox: React.FC<StatusBoxProps> = ({
                     handleDragDropMovement={handleDragDropMovement}
                 />
             ))}
-            {taskData.length === 0 && <p>No tasks in {status}</p>}
+            {taskData.length === 0 && <p style={{color:'white'}}>No tasks in {status}</p>}
         </div>
     );
 };

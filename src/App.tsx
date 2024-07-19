@@ -3,11 +3,13 @@ import Button from '@mui/material/Button';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 
 import './App.css';
 import StatusBox from './components/StatusBox';
 import { TaskProps } from './components/TaskCard';
 import CreateTaskForm from './components/CreateTaskForm';
+import { Grid } from '@mui/material';
 
 const taskData = [
     {
@@ -59,6 +61,7 @@ function App() {
     const [openTask, setOpenTask] = useState<TaskProps[]>(taskData.filter(task => task.status === 'Open'));
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedTask, setSelectedTask] = useState<TaskProps | null>(null);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const toggleModal = () => setModalOpen(!modalOpen);
 
@@ -94,13 +97,28 @@ function App() {
         toggleModal();
     };
 
+    const filteredTasks = (tasks: TaskProps[]) => {
+        return tasks.filter(task => task.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    };
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="App">
                 <div className="header">
                     <h1>Simple Task Management</h1>
+                    <TextField
+                        className="search"
+                        label="Search Tasks"
+                        variant="outlined"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        sx={{width: "30%", ml: '10%', mr:'15%'}}
+                    />
                     <Button variant="contained" onClick={handleCreateTask}>
                         Create Task
+                    </Button>
+                    <Button variant="contained">
+                        Filter
                     </Button>
                     <Modal
                         open={modalOpen}
@@ -126,7 +144,7 @@ function App() {
                     <div className="col col-1">
                         <StatusBox
                             status="Open"
-                            taskData={openTask}
+                            taskData={filteredTasks(openTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
                             handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
@@ -135,7 +153,7 @@ function App() {
                     <div className="col col-2">
                         <StatusBox
                             status="In Progress"
-                            taskData={progressTask}
+                            taskData={filteredTasks(progressTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
                             handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
@@ -144,7 +162,7 @@ function App() {
                     <div className="col col-3">
                         <StatusBox
                             status="Done"
-                            taskData={doneTask}
+                            taskData={filteredTasks(doneTask)}
                             handleDragDropMovement={handleDragDropMovement}
                             handleTaskDelete={handleTaskDelete}
                             handleTaskEdit={handleTaskEdit} // Correctly pass handleTaskEdit function
